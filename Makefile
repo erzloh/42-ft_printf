@@ -6,42 +6,48 @@
 #    By: eholzer <eholzer@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/03 17:17:57 by eholzer           #+#    #+#              #
-#    Updated: 2022/11/09 15:30:24 by eholzer          ###   ########.fr        #
+#    Updated: 2022/11/15 11:00:07 by eholzer          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
+
+NAME	= libftprintf.a
 
 SRCS	= ft_printf.c
 
 OBJS	= ${SRCS:.c=.o}
 
-NAME	= libftprintf.a
-
 CC		= gcc
 
-CFLAGS	= -Wall -Werror -Wextra
+CFLAGS	= -Wall -Werror -Wextra# -Ilibft
 
-LIBC	= ar rc
-
-LIBR	= ranlib
-
-.c.o:
-			${CC} ${CFLAGS} -c $< -o ${<:.c=.o}
-
-libft:
-			cd libft && make re bonus
-
-${NAME}:	${OBJS} libft
-			${LIBC} ${NAME} ${OBJS}
-			${LIBR} ${NAME}
+#.c.o: (the hidden rule)
+#			${CC} ${CFLAGS} -c $< -o ${<:.c=.o}
 
 all:		${NAME}
 
+${NAME}:	${OBJS}
+			make -C Libft
+			cp libft/libft.a .
+			mv libft.a ${NAME}
+			ar rc ${NAME} ${OBJS}
+			ranlib ${NAME}
+
 clean:
 			rm -f ${OBJS}
+			make -C Libft clean
 
 fclean:		clean
 			rm -f ${NAME}
+			rm -f Libft/libft.a
 
 re:			fclean all
 
-.PHONY:		all clean fclean re
+test:		${OBJS}
+			make -C Libft
+			gcc ${CFLAGS} main.c ${OBJS} Libft/libft.a
+#			gcc ${CFLAGS} main.c ${OBJS} -L. -lft (is the same as above)
+
+tclean:		fclean
+			rm -f a.out
+
+.PHONY:		all clean fclean re test ftest
