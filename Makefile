@@ -6,19 +6,24 @@
 #    By: eholzer <eholzer@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/03 17:17:57 by eholzer           #+#    #+#              #
-#    Updated: 2022/11/15 11:00:07 by eholzer          ###   ########.fr        #
+#    Updated: 2022/11/16 15:41:21 by eholzer          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME	= libftprintf.a
+NAME	=	libftprintf.a
 
-SRCS	= ft_printf.c
+SRCS	=	ft_printf.c \
+			d_specifier.c \
+			u_specifier.c \
+			p_specifier.c \
+			x_specifier.c \
+			other_specifiers.c
 
-OBJS	= ${SRCS:.c=.o}
+OBJS	=	${SRCS:.c=.o}
 
-CC		= gcc
+CC		=	gcc
 
-CFLAGS	= -Wall -Werror -Wextra# -Ilibft
+CFLAGS	=	-Wall -Werror -Wextra
 
 #.c.o: (the hidden rule)
 #			${CC} ${CFLAGS} -c $< -o ${<:.c=.o}
@@ -27,7 +32,7 @@ all:		${NAME}
 
 ${NAME}:	${OBJS}
 			make -C Libft
-			cp libft/libft.a .
+			cp Libft/libft.a .
 			mv libft.a ${NAME}
 			ar rc ${NAME} ${OBJS}
 			ranlib ${NAME}
@@ -42,12 +47,4 @@ fclean:		clean
 
 re:			fclean all
 
-test:		${OBJS}
-			make -C Libft
-			gcc ${CFLAGS} main.c ${OBJS} Libft/libft.a
-#			gcc ${CFLAGS} main.c ${OBJS} -L. -lft (is the same as above)
-
-tclean:		fclean
-			rm -f a.out
-
-.PHONY:		all clean fclean re test ftest
+.PHONY:		all clean fclean re

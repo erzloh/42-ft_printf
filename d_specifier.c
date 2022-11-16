@@ -1,29 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   d_specifier.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: eholzer <eholzer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/14 14:55:27 by eholzer           #+#    #+#             */
-/*   Updated: 2022/11/15 16:00:24 by eholzer          ###   ########.fr       */
+/*   Created: 2022/11/16 13:40:58 by eholzer           #+#    #+#             */
+/*   Updated: 2022/11/16 15:33:42 by eholzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+// Here are functions related to the %d specifier 
+
 #include "ft_printf.h"
 
-int	main()
+int	n_len(int n)
 {
 	int	len;
-	int len2;
 
-	printf("\nft_printf:\n");
-	len = ft_printf("bonjour %s, %x", "eric", -42);
-	printf("\nft_printf length: %d", len);
+	len = 0;
+	if (n <= 0)
+		len++;
+	while (n != 0)
+	{
+		n /= 10;
+		len++;
+	}
+	return (len);
+}
 
-	printf("\n----------------------------------------------\n");
+void	print_d(va_list args, int *len, int *i)
+{
+	int	d;
 
-	printf("printf:\n");
-	len2 = printf("bonjour %s, %x", "eric", 42);
-	printf("\nprintf length: %d\n\n", len2);
+	d = va_arg(args, int);
+	ft_putnbr_fd(d, 1);
+	*len += n_len(d);
+	(*i)++;
 }

@@ -1,37 +1,53 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf.c                                        :+:      :+:    :+:   */
+/*   u_specifier.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: eholzer <eholzer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/04 15:04:28 by eholzer           #+#    #+#             */
-/*   Updated: 2022/11/16 15:02:52 by eholzer          ###   ########.fr       */
+/*   Created: 2022/11/16 13:48:07 by eholzer           #+#    #+#             */
+/*   Updated: 2022/11/16 15:33:54 by eholzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+// Here are functions related to the %u specifier 
+
 #include "ft_printf.h"
 
-int	ft_printf(const char *format, ...)
+void	ft_putnbr_fd_u(unsigned int n, int fd)
 {
-	va_list	args;
-	int		len;
-	int		i;
+	if (n < 10)
+	{
+		ft_putchar_fd('0' + n, fd);
+	}
+	else
+	{
+		ft_putnbr_fd(n / 10, fd);
+		ft_putchar_fd('0' + (n % 10), fd);
+	}
+}
+
+int	n_len_u(unsigned int n)
+{
+	int	len;
 
 	len = 0;
-	va_start(args, format);
-	i = 0;
-	while (format[i])
+	if (!n)
+		len = 1;
+	while (n != 0)
 	{
-		if (format[i] == '%')
-			check_specifiers(format, args, &len, &i);
-		else
-		{
-			ft_putchar_fd(format[i], 1);
-			len++;
-		}
-		i++;
+		n /= 10;
+		len++;
 	}
-	va_end(args);
 	return (len);
+}
+
+void	print_u(va_list args, int *len, int *i)
+{
+	unsigned int	u;
+
+	u = va_arg(args, int);
+	ft_putnbr_fd_u(u, 1);
+	*len += n_len_u(u);
+	(*i)++;
 }
