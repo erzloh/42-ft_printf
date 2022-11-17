@@ -25,9 +25,6 @@ CC		=	gcc
 
 CFLAGS	=	-Wall -Werror -Wextra
 
-#.c.o: (the hidden rule)
-#			${CC} ${CFLAGS} -c $< -o ${<:.c=.o}
-
 all:		${NAME}
 
 ${NAME}:	${OBJS}
