@@ -31,19 +31,19 @@ CFLAGS	=	-Wall -Werror -Wextra
 all:		${NAME}
 
 ${NAME}:	${OBJS}
-			make -C Libft
-			cp Libft/libft.a .
+			make -C libft
+			cp libft/libft.a .
 			mv libft.a ${NAME}
 			ar rc ${NAME} ${OBJS}
 			ranlib ${NAME}
 
 clean:
 			rm -f ${OBJS}
-			make -C Libft clean
+			make -C libft clean
 
 fclean:		clean
 			rm -f ${NAME}
-			rm -f Libft/libft.a
+			rm -f libft/libft.a
 
 re:			fclean all
 

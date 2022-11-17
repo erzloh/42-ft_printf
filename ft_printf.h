@@ -13,7 +13,7 @@
 #ifndef FT_PRINTF_H
 # define FT_PRINTF_H
 # include <stdarg.h>
-# include "Libft/libft.h"
+# include "libft/libft.h"
 
 int		ft_printf(const char *format, ...);
 int		get_arg_nb(const char *str);
